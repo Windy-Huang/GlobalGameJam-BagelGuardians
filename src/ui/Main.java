@@ -1,9 +1,11 @@
 package ui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
+
+
         // create a new game window:
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -11,6 +13,7 @@ public class Main {
         window.setTitle("Title .......");
         GamePanel gp = new GamePanel();
         window.add(gp);
+        window.setUndecorated(true);
 
         // resize window to preferred size
         window.pack();
@@ -20,4 +23,5 @@ public class Main {
         // start
         gp.startGameThread();
     }
+
 }
