@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     private final int FRAME_PER_SEC = 60;
 
     // create a game clock that updates characters
-    MouseHandler m = new MouseHandler();
+    MouseHandler m = new MouseHandler(this);
     Cat cat = new Cat(this, m);
     Textbox textbox = new Textbox();
     Thread gameThread;
