@@ -10,17 +10,17 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable{
 
     // How big the character will appear on screen
-    private final int ORIGINAL_PIXEL_SIZE = 32;
-    private final int SCALE = 5;
-    private final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
+    public final int ORIGINAL_PIXEL_SIZE = 64;
+    public final int SCALE = 5;
+    public final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
 
     // Screen Settings
-    private final int SCREEN_WIDTH = 800;
-    private final int SCREEN_HEIGHT = 600;
-    private final int FRAME_PER_SEC = 30;
+    public final int SCREEN_WIDTH = 800;
+    public final int SCREEN_HEIGHT = 600;
+    public final int FRAME_PER_SEC = 30;
 
     // create a game clock that updates characters
-    MouseHandler m = new MouseHandler();
+    MouseHandler m = new MouseHandler(this);
     Cat cat = new Cat(this, m);
     Thread gameThread;
 
@@ -58,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable{
             if (delta >= 1) {
                 update();
                 repaint();
-                delta = 0;
+                delta--;
             }
         }
     }
