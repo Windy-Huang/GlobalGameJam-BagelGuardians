@@ -69,13 +69,13 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         this.textbox.move();
         this.textbox.handleBoundary();
-        //this.setCursor(m.customize());
+        this.setCursor(m.customize());
     }
 
     public void paintComponent(Graphics g) {
         // calling it with the parent class - JPanel
         super.paintComponent(g);
-        //cat.drawCat(g);
+        cat.drawCat(g);
         textbox.drawTextBox(g);
 
     }
