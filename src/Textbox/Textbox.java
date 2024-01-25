@@ -10,7 +10,6 @@ public class Textbox {
     public static final int height= 75;
     public int x;
     public int y;
-    public int clicked;
 
     //speed at which box moves
     private int dY = 12;
