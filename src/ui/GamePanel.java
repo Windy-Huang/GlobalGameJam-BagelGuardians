@@ -20,7 +20,6 @@ public class GamePanel extends JPanel implements Runnable{
     private final int FRAME_PER_SEC = 30;
 
     // create a game clock that updates characters
-// testing
     MouseHandler m = new MouseHandler();
     Cat cat = new Cat(this, m);
     Thread gameThread;
@@ -32,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable{
         // all drawing will be done in an offscreen painting buffer
         // improve game rendering
         this.setDoubleBuffered(true);
-// testing
         this.addMouseListener(m);
         this.setFocusable(true);
     }
@@ -67,15 +65,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     // EFFECTS: updates world information in updates 30 times per second
     public void update() {
-// testing
         this.setCursor(m.customize());
     }
 
     public void paintComponent(Graphics g) {
         // calling it with the parent class - JPanel
         super.paintComponent(g);
-
-// testing stuff
         cat.drawCat(g);
     }
 

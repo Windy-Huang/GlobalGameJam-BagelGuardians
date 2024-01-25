@@ -22,11 +22,9 @@ public class Cat {
 
     public void getImage() {
         try {
-            System.out.println("Image loading started");
-            System.out.println(getClass().getResource("cat/left.png"));
             left = ImageIO.read(getClass().getResourceAsStream("/left.png"));
             right = ImageIO.read(getClass().getResourceAsStream("/right.png"));
-            System.out.println("Image loading ended");
+            regular = ImageIO.read(getClass().getResourceAsStream("/regular.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }

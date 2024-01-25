@@ -4,10 +4,6 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hello world!!!");
-        System.out.println("hello");
-        System.out.println("helloooooo");
-
         // create a new game window:
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
