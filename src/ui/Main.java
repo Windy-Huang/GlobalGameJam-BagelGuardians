@@ -10,7 +10,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Title .......");
+        window.setTitle("Slap the Cat");
         GamePanel gp = new GamePanel();
         window.add(gp);
         window.setUndecorated(true);
