@@ -2,6 +2,7 @@ package catCharacter;
 
 import ui.GamePanel;
 import ui.Sound;
+import Textbox.Textbox;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,22 +13,25 @@ import java.io.IOException;
 
 public class MouseHandler implements MouseListener {
 
-    public boolean direction = false;
-    public Sound s = new Sound();
+    public boolean direction;
+    public Sound s;
     public GamePanel gp;
     public Cat c;
 
-    public MouseHandler(GamePanel gp) {
+    public MouseHandler(GamePanel gp, Textbox t) {
+        this.direction = false;
+        s = new Sound();
         this.gp = gp;
-        c = new Cat(gp, this);
+        c = new Cat(gp, this, t);
     }
+
 
     // EFFECTS: slap the cat based on the location of the mouse
     @Override
     public void mouseClicked(MouseEvent e) {
         if (c.checkValid(e.getX(), e.getY())) {
-            System.out.println(e.getY());
-            s.play(0);
+            System.out.println("clicked");
+            s.playSoundEffect(0);
             direction = !direction;
         }
     }

@@ -1,6 +1,7 @@
 package catCharacter;
 
 import ui.GamePanel;
+import Textbox.Textbox;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,12 +12,14 @@ public class Cat {
 
     public GamePanel gp;
     public MouseHandler mh;
+    public Textbox tb;
     public BufferedImage left, right, regular;
-    public int x=0,y=0;
+    public int x=300,y=300;
 
-    public Cat(GamePanel gp, MouseHandler mh){
+    public Cat(GamePanel gp, MouseHandler mh, Textbox t){
         this.gp = gp;
         this.mh = mh;
+        this.tb = t;
         getImage();
     }
 
@@ -35,13 +38,13 @@ public class Cat {
     public boolean checkValid(int x, int y) {
         int SIZE = gp.PIXEL_SIZE;
 
-        int deltaWidth = (this.x + SIZE)/3;
+        int deltaWidth = SIZE/3;
         int width1 = this.x;
         int width2 = this.x + deltaWidth;
         int width4 = (this.x + SIZE);
         int width3 = width4 - deltaWidth;
 
-        int deltaHeight = (this.y + SIZE)/3;
+        int deltaHeight = SIZE/3;
         int height1 = this.y + deltaHeight;
         int height2 = (this.y + SIZE) - deltaHeight;
 

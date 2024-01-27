@@ -11,6 +11,7 @@ public class Sound {
 
     public Sound() {
         soundURL[0] = getClass().getResource("/whip.wav");
+        soundURL[1] = getClass().getResource("/Level2.7.wav");
     }
 
     public void setFile(int i) {
@@ -21,8 +22,18 @@ public class Sound {
         } catch (Exception e) {}
     }
 
-    public void play(int i) {
+    public void playSoundEffect(int i) {
         setFile(i);
         clip.start();
+    }
+
+    public void playBackgroundMusic(int i) {
+        setFile(i);
+        clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    public void endBackgroundMusic() {
+        clip.stop();
     }
 }

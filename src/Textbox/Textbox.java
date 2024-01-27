@@ -10,6 +10,7 @@ public class Textbox {
     public static final int height= 75;
     public int x;
     public int y;
+    public boolean isClicked;
 
     //speed at which box moves
     private int dY = 12;
@@ -31,6 +32,7 @@ public class Textbox {
     public Textbox() {
         this.x = 400;
         this.y = 300;
+        this.isClicked = false;
     }
 
     public void move() {
@@ -126,6 +128,9 @@ public class Textbox {
             }
         }
     }
+
+    // EFFECTS: convert isClick to true when box is clicked
+    public void clickBox() {}
 
     public void drawTextBox (Graphics g) {
         g.drawRect(this.x - width / 2, this.y - height / 2, width, height);

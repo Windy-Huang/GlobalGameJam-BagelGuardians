@@ -11,9 +11,9 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable{
 
     // How big the character will appear on screen
-    private final int ORIGINAL_PIXEL_SIZE = 32;
-    private final int SCALE = 5;
-    private final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
+    private final int ORIGINAL_PIXEL_SIZE = 64;
+    private final int SCALE = 4;
+    public final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
 
     // Screen Settings
     public final int SCREEN_WIDTH = 800;
@@ -21,9 +21,10 @@ public class GamePanel extends JPanel implements Runnable{
     private final int FRAME_PER_SEC = 60;
 
     // create a game clock that updates characters
-    MouseHandler m = new MouseHandler(this);
-    Cat cat = new Cat(this, m);
     Textbox textbox = new Textbox();
+    MouseHandler m = new MouseHandler(this, textbox);
+    Cat cat = new Cat(this, m, textbox);
+    Sound s = new Sound();
     Thread gameThread;
 
     // EFFECTS: create an object with the intended width and height
@@ -50,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
         double delta = 0;
         long lastTime = System.currentTimeMillis();
         long currentTime;
-
+        s.playBackgroundMusic(1);
 
         while(gameThread != null) {
             currentTime = System.currentTimeMillis();
