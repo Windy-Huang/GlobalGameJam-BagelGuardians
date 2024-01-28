@@ -11,11 +11,12 @@ import java.io.IOException;
 public class Cat {
     public static final int WAIT = 175;
     public static final int NO_REACTION = 3000;
+    public final int TARGET = 5;
 
     public GamePanel gp;
     public MouseHandler mh;
     public Sound s = new Sound();
-    public BufferedImage left, right, regular, smirky, img;
+    public BufferedImage left, right, regular, smirky, cry, img;
     public long startReactionTime = 0;
     public long noReactionTime = 0;
     public Boolean transition = false;
@@ -35,6 +36,7 @@ public class Cat {
             right = ImageIO.read(getClass().getResourceAsStream("/right.png"));
             regular = ImageIO.read(getClass().getResourceAsStream("/regular.png"));
             smirky = ImageIO.read(getClass().getResourceAsStream("/smirky.png"));
+            cry = ImageIO.read(getClass().getResourceAsStream("/cry.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -82,12 +84,14 @@ public class Cat {
                 img = left;
                 hit++;
                 mh.leftDirection = false;
+                checkHit();
             } else if (mh.rightDirection) {
                 startReactionTime = System.currentTimeMillis();
                 noReactionTime = 0;
                 img = right;
                 hit++;
                 mh.rightDirection = false;
+                checkHit();
             } else if (noReactionTime != 0) {
                 if ((System.currentTimeMillis() - noReactionTime) >= NO_REACTION) {
                     img = smirky;
@@ -96,7 +100,7 @@ public class Cat {
                 noReactionTime = System.currentTimeMillis();
             }
         } else {
-            if ((System.currentTimeMillis() - startReactionTime) >= WAIT){
+            if ((System.currentTimeMillis() - startReactionTime) >= WAIT) {
                 startReactionTime = 0;
                 img = regular;
             }
@@ -113,6 +117,10 @@ public class Cat {
         if (img == smirky) {
             s.playSoundEffect(2);
             transition = true;
+        } else if (img == cry) {
+            s.playSoundEffect(3);
+            gp.gameState = gp.CLOSING;
+
         }
     }
 
@@ -122,5 +130,11 @@ public class Cat {
         transition = false;
         img = regular;
         hit = 0;
+    }
+
+    public void checkHit() {
+        if (hit >= TARGET) {
+            img = cry;
+        }
     }
 }

@@ -14,7 +14,6 @@ public class GamePanel extends JPanel implements Runnable{
     private final int ORIGINAL_PIXEL_SIZE = 64;
     private final int SCALE = 4;
     public final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
-    public final int TARGET = 20;
 
     // Screen Settings
     public final int SCREEN_WIDTH = 800;
@@ -22,10 +21,12 @@ public class GamePanel extends JPanel implements Runnable{
     private final int FRAME_PER_SEC = 60;
 
     // create game state
-    // 1 = play
-    // 2 = pause
-    // 3 = opening
-    // 4 = closing
+    // todo create k handler to move through opening state
+    public int gameState;
+    public final int PLAY = 1;
+    public final int OPENING = 2; // move by pressing entre
+    public final int CLOSING = 3; // turn gameThread = null to exis
+
 
     // create a game clock that updates characters
     Textbox textbox = new Textbox();
@@ -59,18 +60,41 @@ public class GamePanel extends JPanel implements Runnable{
         long lastTime = System.currentTimeMillis();
         long currentTime;
         s.playBackgroundMusic(1);
+        gameState = PLAY;
 
         while(gameThread != null) {
-            currentTime = System.currentTimeMillis();
-            delta += (currentTime - lastTime) / drawInterval;
-            lastTime = currentTime;
 
-            if (delta >= 1) {
-                update();
-                repaint();
-                delta = 0;
+            if (gameState == PLAY) {
+                currentTime = System.currentTimeMillis();
+                delta += (currentTime - lastTime) / drawInterval;
+                lastTime = currentTime;
+
+                if (delta >= 1) {
+                    update();
+                    repaint();
+                    delta = 0;
+                }
+            } else if (gameState == OPENING) {
+                gameOpening();
+            } else if (gameState == CLOSING){
+                gameClosing();
+                gameThread = null;
             }
+
         }
+    }
+
+    // EFFECTS: run the game
+    public void pauseGame() {
+
+    }
+
+    // EFFECTS: show opening drawing
+    public void gameOpening() {
+
+    }
+
+    public void gameClosing() {
     }
 
     // EFFECTS: updates world information in updates 30 times per second
@@ -82,10 +106,6 @@ public class GamePanel extends JPanel implements Runnable{
         } else {
             cat.updateCatReaction();
             this.setCursor(m.customize());
-
-            if (cat.hit >= TARGET) {
-                /// change game start
-            }
 
             if (cat.transition == true) {
                 try {
