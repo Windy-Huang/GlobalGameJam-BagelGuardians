@@ -1,4 +1,4 @@
-package Textbox;
+package model;
 
 
 import java.awt.*;
@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class Textbox {
 
-    public static final int width = 150;
-    public static final int height= 75;
+    public int width = 150;
+    public int height= 75;
     public int x;
     public int y;
     public boolean isClicked;
@@ -28,20 +28,24 @@ public class Textbox {
     public double relativeMouseCoordinateHelperX = (screenWidth - 800) / 2;
     public double relativeMouseCoordinateHelperY = (screenHeight - 650) / 2;
 
+    public double mouseX;
+    public double mouseY;
+
 
     public Textbox() {
         this.x = 400;
         this.y = 300;
-        this.isClicked = true;
+        this.isClicked = false;
     }
 
     public void move() {
         //to correct mouse coordinate
-        double mouseX = MouseInfo.getPointerInfo().getLocation().x - relativeMouseCoordinateHelperX;
-        double mouseY = MouseInfo.getPointerInfo().getLocation().y - relativeMouseCoordinateHelperY;
+        mouseX = MouseInfo.getPointerInfo().getLocation().x - relativeMouseCoordinateHelperX;;
+        mouseY = MouseInfo.getPointerInfo().getLocation().y - relativeMouseCoordinateHelperY;
 
         //System.out.println("(" + mouseX + ", " + mouseY + ")");
-        System.out.println("(" + x + ", " + y + ")");
+        //System.out.println("(" + x + ", " + y + ")");
+
         //mouse approaching box from left
         //left top
         if ((((this.x - (width/2) - mouseX) < boxConstant) && ((this.x - (width/2) - mouseX) > 0))
@@ -103,13 +107,13 @@ public class Textbox {
             if (r == 0) {
                 this.y = 600-(height/2)-boxConstant;
             } else {
-                this.y = 300;
+                this.y = 300; //go back to middle
             }
         } else if ((this.y + height/2) > 600) {
             if (r == 0) {
                 this.y = boxConstant+(height/2);
             } else {
-                this.y = 300;
+                this.y = 300; // go back to middle
             }
         }
 
@@ -117,20 +121,18 @@ public class Textbox {
             if (r == 0) {
                 this.x = 800-(width/2)-boxConstant;
             } else {
-                this.x = 400;
+                this.x = 400; //go back to middle
             }
 
         } else if ((this.x + width/2) > 800) {
             if (r == 0) {
                 this.x = boxConstant+(width/2);
             } else {
-                this.x = 400;
+                this.x = 400; // go back to middle
             }
         }
     }
 
-    // EFFECTS: convert isClick to true when box is clicked
-    public void clickBox() {}
 
     public void drawTextBox (Graphics g) {
         g.drawRect(this.x - width / 2, this.y - height / 2, width, height);

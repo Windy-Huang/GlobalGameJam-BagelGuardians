@@ -1,8 +1,8 @@
 package ui;
 
-import catCharacter.Cat;
-import catCharacter.MouseHandler;
-import Textbox.Textbox;
+import model.Cat;
+import model.MouseHandler;
+import model.Textbox;
 
 import javax.swing.*;
 import java.awt.*;

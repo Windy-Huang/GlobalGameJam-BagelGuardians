@@ -1,4 +1,4 @@
-package catCharacter;
+package model;
 
 import ui.GamePanel;
 import ui.Sound;
@@ -17,6 +17,7 @@ public class MouseHandler implements MouseListener {
     public Sound s;
     public GamePanel gp;
     public Cat c;
+    public Textbox t;
 
     public MouseHandler(GamePanel gp) {
         this.leftDirection = false;
@@ -39,6 +40,14 @@ public class MouseHandler implements MouseListener {
             s.playSoundEffect(0);
             rightDirection = true;
         }
+        t.mouseX = MouseInfo.getPointerInfo().getLocation().x - t.relativeMouseCoordinateHelperX;;
+        t.mouseY = MouseInfo.getPointerInfo().getLocation().y - t.relativeMouseCoordinateHelperY;
+
+        if (((t.mouseX < (t.x + t.width)) && (t.mouseX > t.x))
+        && ((t.mouseY < (t.y + t.height) && (t.mouseY > t.y)))) {
+            t.isClicked = true;
+        }
+
     }
 
     // failed
@@ -58,7 +67,8 @@ public class MouseHandler implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {}
     @Override
-    public void mousePressed(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {
+    }
     @Override
     public void mouseReleased(MouseEvent e) {}
     @Override

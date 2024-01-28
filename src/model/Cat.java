@@ -1,4 +1,4 @@
-package catCharacter;
+package model;
 
 import ui.GamePanel;
 import ui.Sound;
