@@ -25,13 +25,21 @@ public class MouseHandler implements MouseListener {
         s = new Sound();
         this.gp = gp;
         c = new Cat(gp, this);
+        t = gp.textbox;
     }
 
 
     // EFFECTS: slap the cat based on the location of the mouse
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (c.checkValid(e.getX(), e.getY()) == 1) {
+        System.out.println("(" + e.getX() + ", " + e.getY() + ")");
+        System.out.println("(" + this.t.x + ", " + this.t.y + ")");
+        System.out.println(t.isClicked);
+
+        if (((e.getX() < (this.t.x + (this.t.width/2))) && (e.getX() > (this.t.x-(this.t.width/2))))
+                && ((e.getY() < (this.t.y + (this.t.height/2)) && (e.getY() > (this.t.y-(this.t.width/2)))))) {
+            t.isClicked = true;
+        } else if (c.checkValid(e.getX(), e.getY()) == 1) {
             System.out.println("clicked left");
             s.playSoundEffect(0);
             leftDirection = true;
@@ -39,13 +47,6 @@ public class MouseHandler implements MouseListener {
             System.out.println("clicked right");
             s.playSoundEffect(0);
             rightDirection = true;
-        }
-        t.mouseX = MouseInfo.getPointerInfo().getLocation().x - t.relativeMouseCoordinateHelperX;;
-        t.mouseY = MouseInfo.getPointerInfo().getLocation().y - t.relativeMouseCoordinateHelperY;
-
-        if (((t.mouseX < (t.x + t.width)) && (t.mouseX > t.x))
-        && ((t.mouseY < (t.y + t.height) && (t.mouseY > t.y)))) {
-            t.isClicked = true;
         }
 
     }

@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 
     // create a game clock that updates characters
-    Textbox textbox = new Textbox();
+    public Textbox textbox = new Textbox();
     MouseHandler m = new MouseHandler(this);
     Cat cat = new Cat(this, m);
     Sound s = new Sound();
