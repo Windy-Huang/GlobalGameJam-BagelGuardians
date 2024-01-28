@@ -12,7 +12,7 @@ public class Image {
     public Image() {
         BufferedImage img = null;
         String path;
-        for (int i=0; i<20; i++){
+        for (int i=0; i<33; i++){
             try {
                 path = "/img" + Integer.toString(i) + ".png";
                 img = ImageIO.read(getClass().getResourceAsStream(path));
