@@ -26,7 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameState;
     public final int PLAY = 1;
     public final int OPENING = 2; // move by pressing entre
-    public final int CLOSING = 3; // turn gameThread = null to exis
+    public final int CLOSING = 3; // turn gameThread = null to exist
+    public final int TRANSITION = 4;
 
 
     // create a game clock that updates characters
@@ -40,9 +41,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     // the index of image in array
     public int index = 0;
-    public int OPENING_END_INDEX = 9;
-    public int CLOSING_END_INDEX = 9;
-    public int TRANSITION_INDEX = 3;
+    public int OPENING_END_INDEX = 20;
+    public int CLOSING_END_INDEX = 20;
+    public int TRANSITION_START = 12;
+    public int TRANSITION_END = 22;
 
     // EFFECTS: create an object with the intended width and height
     public GamePanel() {
@@ -110,8 +112,8 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 cat.restart();
                 textbox.isClicked = false;
-                index = TRANSITION_INDEX;
-                gameState = OPENING;
+                index = TRANSITION_START;
+                gameState = TRANSITION;
             }
         }
     }
@@ -131,6 +133,16 @@ public class GamePanel extends JPanel implements Runnable {
             gameThread = null;
             index--;
             s.stopMusic();
+        }
+    }
+
+    public void transitionUpdate() {
+        key.active = true;
+        index = OPENING_END_INDEX;
+        if (index == TRANSITION_END){
+            gameState = OPENING;
+            index = TRANSITION_START;
+            key.active = false;
         }
     }
 
@@ -158,6 +170,8 @@ public class GamePanel extends JPanel implements Runnable {
             openUpdate();
         } else if (gameState == CLOSING) {
             closeUpdate();
+        } else if (gameState == TRANSITION) {
+            transitionUpdate();
         }
     }
 
