@@ -20,6 +20,7 @@ public class Cat {
     public long startReactionTime = 0;
     public long noReactionTime = 0;
     public Boolean transition = false;
+    public Boolean over = false;
     public int hit = 0;
     public int x=300,y=300;
 
@@ -114,12 +115,13 @@ public class Cat {
 //      change to 2D
         Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(img, x, y, gp.getPixelSize(), gp.getPixelSize(), null);
+        g2d.drawString(Integer.toString(hit), 400, 100);
         if (img == smirky) {
             s.playSoundEffect(2);
             transition = true;
         } else if (img == cry) {
             s.playSoundEffect(3);
-            gp.gameState = gp.CLOSING;
+            over = true;
 
         }
     }

@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 // the class contains all functionality of JPanel class
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
 
     // How big the character will appear on screen
     private final int ORIGINAL_PIXEL_SIZE = 64;
@@ -55,50 +55,28 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        double drawInterval = 1000/FRAME_PER_SEC;
+        double drawInterval = 1000 / FRAME_PER_SEC;
         double delta = 0;
         long lastTime = System.currentTimeMillis();
         long currentTime;
         s.playBackgroundMusic(1);
         gameState = PLAY;
 
-        while(gameThread != null) {
+        while (gameThread != null) {
+            currentTime = System.currentTimeMillis();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
 
-            if (gameState == PLAY) {
-                currentTime = System.currentTimeMillis();
-                delta += (currentTime - lastTime) / drawInterval;
-                lastTime = currentTime;
-
-                if (delta >= 1) {
-                    update();
-                    repaint();
-                    delta = 0;
-                }
-            } else if (gameState == OPENING) {
-                gameOpening();
-            } else if (gameState == CLOSING){
-                gameClosing();
-                gameThread = null;
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta = 0;
             }
-
         }
     }
 
-    // EFFECTS: run the game
-    public void pauseGame() {
-
-    }
-
-    // EFFECTS: show opening drawing
-    public void gameOpening() {
-
-    }
-
-    public void gameClosing() {
-    }
-
-    // EFFECTS: updates world information in updates 30 times per second
-    public void update() {
+    // EFFECTS: update the game during play
+    public void playUpdate() {
         if (!(textbox.isClicked)) {
             this.textbox.move();
             this.textbox.handleBoundary();
@@ -107,7 +85,14 @@ public class GamePanel extends JPanel implements Runnable{
             cat.updateCatReaction();
             this.setCursor(m.customize());
 
-            if (cat.transition == true) {
+            if (cat.over == true) {
+                try {
+                    Thread.sleep((long) 5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                gameState = CLOSING;
+            } else if (cat.transition == true) {
                 try {
                     Thread.sleep((long) 2000);
                 } catch (InterruptedException e) {
@@ -119,10 +104,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    public void paintComponent(Graphics g) {
-        // calling it with the parent class - JPanel
-        super.paintComponent(g);
-
+    public void playDraw(Graphics g) {
         if (!(textbox.isClicked)) {
             textbox.drawTextBox(g);
         } else {
@@ -130,9 +112,30 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void gameClosing() {
+    }
+
+    // EFFECTS: updates world information in updates 30 times per second
+    public void update() {
+        if (gameState == PLAY) {
+            playUpdate();
+        }
+    }
+
+    public void paintComponent(Graphics g) {
+        // calling it with the parent class - JPanel
+        super.paintComponent(g);
+
+        if (gameState == PLAY) {
+            playDraw(g);
+        }
+
+    }
+
     // Getters:
 
-    public int getPixelSize() {return PIXEL_SIZE;}
-
+    public int getPixelSize() {
+        return PIXEL_SIZE;
+    }
 
 }
