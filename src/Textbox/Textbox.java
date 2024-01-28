@@ -32,7 +32,7 @@ public class Textbox {
     public Textbox() {
         this.x = 400;
         this.y = 300;
-        this.isClicked = false;
+        this.isClicked = true;
     }
 
     public void move() {

@@ -1,7 +1,6 @@
 package catCharacter;
 
 import ui.GamePanel;
-import Textbox.Textbox;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,17 +8,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Cat {
+    public static final int WAIT = 175;
 
     public GamePanel gp;
     public MouseHandler mh;
-    public Textbox tb;
-    public BufferedImage left, right, regular;
+    public BufferedImage left, right, regular, img;
+    public long startReactionTime = 0;
     public int x=300,y=300;
 
-    public Cat(GamePanel gp, MouseHandler mh, Textbox t){
+    public Cat(GamePanel gp, MouseHandler mh){
         this.gp = gp;
         this.mh = mh;
-        this.tb = t;
         getImage();
     }
 
@@ -32,10 +31,11 @@ public class Cat {
         } catch(IOException e) {
             e.printStackTrace();
         }
+        img = regular;
     }
 
     // EFFECTS: return true if the coordinate is in valid hitting range
-    public boolean checkValid(int x, int y) {
+    public int checkValid(int x, int y) {
         int SIZE = gp.PIXEL_SIZE;
 
         int deltaWidth = SIZE/3;
@@ -48,33 +48,50 @@ public class Cat {
         int height1 = this.y + deltaHeight;
         int height2 = (this.y + SIZE) - deltaHeight;
 
-        Boolean validX = between(x, width1, width2) || between(x, width3, width4);
+        Boolean validXLeft = between(x, width1, width2);
+        Boolean validXRight = between(x, width3, width4);
         Boolean validY = between(y, height1, height2);
 
-        return (validX && validY);
+        if (validXLeft && validY){
+            return 1;
+        } else if (validXRight && validY) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 
+    // EFFECTS: helper
     public boolean between(int val, int lo, int hi){
         return (lo <= val && val <= hi);
     }
 
-    public void drawCat(Graphics g) {
-//        change to 2D
-        Graphics2D g2d = (Graphics2D)g;
-//        g2d.setColor(Color.BLUE);
-//        g2d.fillRect(100,100, gp.getPixelSize(), gp.getPixelSize());
-//        g2d.dispose();
-        BufferedImage img = null;
-        if (mh.direction){
-            img = left;
+    // EFFECTS: draw the corresponding cat
+    public void updateCatReaction() {
+        if (startReactionTime == 0){
+            if (mh.leftDirection){
+                startReactionTime = System.currentTimeMillis();
+                img = left;
+                mh.leftDirection = false;
+            } else if (mh.rightDirection) {
+                startReactionTime = System.currentTimeMillis();
+                img = right;
+                mh.rightDirection = false;
+            }
         } else {
-            img = right;
+            if ((System.currentTimeMillis() - startReactionTime) >= WAIT){
+                startReactionTime = 0;
+                img = regular;
+            }
+            mh.leftDirection = false;
+            mh.rightDirection = false;
         }
+    }
+    // EFFECT: update the cat reaction
+    public void drawCat(Graphics g) {
+//      change to 2D
+        Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(img, x, y, gp.getPixelSize(), gp.getPixelSize(), null);
     }
 
-    // the current x coordinate - width of the image / 2 will return the center of the image
-    // divides the cat into 3 section horizontally, valid if in outer 2
-    // 4 section vertically, the inner 2 valid
-    // if the mouse is in
 }

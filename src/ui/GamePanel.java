@@ -22,8 +22,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     // create a game clock that updates characters
     Textbox textbox = new Textbox();
-    MouseHandler m = new MouseHandler(this, textbox);
-    Cat cat = new Cat(this, m, textbox);
+    MouseHandler m = new MouseHandler(this);
+    Cat cat = new Cat(this, m);
     Sound s = new Sound();
     Thread gameThread;
 
@@ -70,15 +70,19 @@ public class GamePanel extends JPanel implements Runnable{
     public void update() {
         this.textbox.move();
         this.textbox.handleBoundary();
+        cat.updateCatReaction();
         this.setCursor(m.customize());
     }
 
     public void paintComponent(Graphics g) {
         // calling it with the parent class - JPanel
         super.paintComponent(g);
-        cat.drawCat(g);
-        textbox.drawTextBox(g);
 
+        if (!(textbox.isClicked)) {
+            textbox.drawTextBox(g);
+        } else {
+            cat.drawCat(g);
+        }
     }
 
     // Getters:
