@@ -1,7 +1,10 @@
 package model;
 
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 
 public class Textbox {
@@ -34,6 +37,8 @@ public class Textbox {
     public String text = "I'm the";
     public String text2 = "bagel ninja :D";
 
+    BufferedImage background = null;
+
 
 
 
@@ -41,7 +46,11 @@ public class Textbox {
         this.x = 400;
         this.y = 300;
         this.isClicked = false;
-
+        try {
+            background = ImageIO.read(getClass().getResourceAsStream("/background.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void moveText() {
@@ -144,6 +153,7 @@ public class Textbox {
 
 
     public void drawTextBox (Graphics g) {
+        g.drawImage(background, 0,0, 800, 600, null);
         g.drawRect(this.x - width / 2, this.y - height / 2, width, height);
         g.setFont(g.getFont().deriveFont(16f));
         g.drawString(this.text, this.x-(width/2), this.y);

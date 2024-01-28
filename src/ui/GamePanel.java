@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // How big the character will appear on screen
     private final int ORIGINAL_PIXEL_SIZE = 64;
-    private final int SCALE = 4;
+    private final int SCALE = 5;
     public final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
 
     // Screen Settings
@@ -40,8 +40,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // the index of image in array
     public int index = 0;
-    public int OPENING_END_INDEX = 1;
-    public int CLOSING_END_INDEX = 2;
+    public int OPENING_END_INDEX = 9;
+    public int CLOSING_END_INDEX = 9;
+    public int TRANSITION_INDEX = 3;
 
     // EFFECTS: create an object with the intended width and height
     public GamePanel() {
@@ -109,6 +110,8 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 cat.restart();
                 textbox.isClicked = false;
+                index = TRANSITION_INDEX;
+                gameState = OPENING;
             }
         }
     }

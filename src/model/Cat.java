@@ -10,19 +10,19 @@ import java.io.IOException;
 
 public class Cat {
     public static final int WAIT = 175;
-    public static final int NO_REACTION = 3000;
+    public static final int NO_REACTION = 2750;
     public final int TARGET = 15;
 
     public GamePanel gp;
     public MouseHandler mh;
     public Sound s = new Sound();
-    public BufferedImage left, right, regular, smirky, cry, img;
+    public BufferedImage left, right, regular, smirky, cry, img, background;
     public long startReactionTime = 0;
     public long noReactionTime = 0;
     public Boolean transition = false;
     public Boolean over = false;
     public int hit = 0;
-    public int x=300,y=300;
+    public int x=230,y=240;
 
     public Cat(GamePanel gp, MouseHandler mh){
         this.gp = gp;
@@ -38,6 +38,7 @@ public class Cat {
             regular = ImageIO.read(getClass().getResourceAsStream("/regular.png"));
             smirky = ImageIO.read(getClass().getResourceAsStream("/smirky.png"));
             cry = ImageIO.read(getClass().getResourceAsStream("/cry.png"));
+            background = ImageIO.read(getClass().getResourceAsStream("/background.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -115,6 +116,7 @@ public class Cat {
     public void drawCat(Graphics g) {
 //      change to 2D
         Graphics2D g2d = (Graphics2D)g;
+        g2d.drawImage(background, 0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT, null);
         g2d.drawImage(img, x, y, gp.getPixelSize(), gp.getPixelSize(), null);
         g2d.drawString(Integer.toString(hit), 400, 100);
         if (img == smirky) {
