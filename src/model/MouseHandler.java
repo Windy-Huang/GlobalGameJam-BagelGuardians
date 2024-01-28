@@ -32,19 +32,19 @@ public class MouseHandler implements MouseListener {
     // EFFECTS: slap the cat based on the location of the mouse
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("(" + e.getX() + ", " + e.getY() + ")");
-        System.out.println("(" + this.t.x + ", " + this.t.y + ")");
-        System.out.println(t.isClicked);
+        //System.out.println("(" + e.getX() + ", " + e.getY() + ")");
+        //System.out.println("(" + this.t.x + ", " + this.t.y + ")");
+        //System.out.println(t.isClicked);
 
         if (((e.getX() < (this.t.x + (this.t.width/2))) && (e.getX() > (this.t.x-(this.t.width/2))))
                 && ((e.getY() < (this.t.y + (this.t.height/2)) && (e.getY() > (this.t.y-(this.t.width/2)))))) {
             t.isClicked = true;
         } else if (c.checkValid(e.getX(), e.getY()) == 1) {
-            System.out.println("clicked left");
+            //System.out.println("clicked left");
             s.playSoundEffect(0);
             leftDirection = true;
         } else if (c.checkValid(e.getX(), e.getY()) == 2) {
-            System.out.println("clicked right");
+            //System.out.println("clicked right");
             s.playSoundEffect(0);
             rightDirection = true;
         }
