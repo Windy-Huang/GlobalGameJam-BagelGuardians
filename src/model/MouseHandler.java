@@ -41,7 +41,7 @@ public class MouseHandler implements MouseListener {
         //switch textbox text
         if (!t.isClicked) {
             t.rand = new Random();
-            int r = t.rand.nextInt(6);
+            int r = t.rand.nextInt(5);
 
             switch (r) {
                 case 0:
@@ -59,10 +59,6 @@ public class MouseHandler implements MouseListener {
                 case 3:
                     t.text = "Nice try, LOSER!";
                     t.text2 = "";
-                    break;
-                case 4:
-                    t.text = "Watch out buddy, you might";
-                    t.text2 = "slip on the bagel crumbs!";
                     break;
                 default:
                     t.text = "I'm the";
