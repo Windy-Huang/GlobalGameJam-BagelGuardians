@@ -22,7 +22,6 @@ public class Main {
 
         // start
         gp.startGameThread();
-        
     }
 
 }

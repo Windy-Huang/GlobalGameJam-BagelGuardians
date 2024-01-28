@@ -36,11 +36,12 @@ public class GamePanel extends JPanel implements Runnable {
     Cat cat = new Cat(this, m);
     Sound s = new Sound();
     Image i = new Image();
-    Thread gameThread;
+    public Thread gameThread;
 
     // the index of image in array
     public int index = 0;
-    public int OPENING_END_INDEX = 2;
+    public int OPENING_END_INDEX = 1;
+    public int CLOSING_END_INDEX = 2;
 
     // EFFECTS: create an object with the intended width and height
     public GamePanel() {
@@ -121,6 +122,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void closeUpdate() {
+        key.active = true;
+        if (index == CLOSING_END_INDEX){
+            key.active = false;
+            gameThread = null;
+            index--;
+            s.stopMusic();
+        }
     }
 
     public void playDraw(Graphics g) {
@@ -136,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void closeDraw(Graphics g) {
-
+        g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
     }
 
     // EFFECTS: updates world information in updates 30 times per second
