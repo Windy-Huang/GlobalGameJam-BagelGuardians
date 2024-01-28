@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class MouseHandler implements MouseListener {
 
@@ -36,14 +37,48 @@ public class MouseHandler implements MouseListener {
         //System.out.println("(" + this.t.x + ", " + this.t.y + ")");
         //System.out.println(t.isClicked);
 
+
+        //switch textbox text
+        if (!t.isClicked) {
+            t.rand = new Random();
+            int r = t.rand.nextInt(6);
+
+            switch (r) {
+                case 0:
+                    t.text = "Come and catch";
+                    t.text2 = "me you loser =P";
+                    break;
+                case 1:
+                    t.text = "I'm as slippery";
+                    t.text2 = "as a buttered bagel!";
+                    break;
+                case 2:
+                    t.text = "I've got speed like";
+                    t.text2 = "a caffeinated squirrel!";
+                    break;
+                case 3:
+                    t.text = "Nice try, LOSER!";
+                    t.text2 = "";
+                    break;
+                case 4:
+                    t.text = "Watch out buddy, you might";
+                    t.text2 = "slip on the bagel crumbs!";
+                    break;
+                default:
+                    t.text = "I'm the";
+                    t.text2 = "bagel ninja :D";
+                    break;
+            }
+        }
+
         if (((e.getX() < (this.t.x + (this.t.width/2))) && (e.getX() > (this.t.x-(this.t.width/2))))
                 && ((e.getY() < (this.t.y + (this.t.height/2)) && (e.getY() > (this.t.y-(this.t.width/2)))))) {
             t.isClicked = true;
-        } else if (c.checkValid(e.getX(), e.getY()) == 1) {
+        } else if ((c.checkValid(e.getX(), e.getY()) == 1) && (t.isClicked)) {
             //System.out.println("clicked left");
             s.playSoundEffect(0);
             leftDirection = true;
-        } else if (c.checkValid(e.getX(), e.getY()) == 2) {
+        } else if ((c.checkValid(e.getX(), e.getY()) == 2) && (t.isClicked)) {
             //System.out.println("clicked right");
             s.playSoundEffect(0);
             rightDirection = true;

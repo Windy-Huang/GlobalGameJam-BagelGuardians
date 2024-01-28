@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Textbox {
 
-    public int width = 150;
+    public int width = 200;
     public int height= 75;
     public int x;
     public int y;
@@ -17,7 +17,7 @@ public class Textbox {
     private int dX = 12;
 
     private int r;
-    private Random rand;
+    public Random rand;
 
     private int boxConstant = 99;
 
@@ -31,11 +31,20 @@ public class Textbox {
     public double mouseX;
     public double mouseY;
 
+    public String text = "I'm the";
+    public String text2 = "bagel ninja :D";
+
+
+
 
     public Textbox() {
         this.x = 400;
         this.y = 300;
         this.isClicked = false;
+
+    }
+
+    public void moveText() {
     }
 
     public void move() {
@@ -136,6 +145,10 @@ public class Textbox {
 
     public void drawTextBox (Graphics g) {
         g.drawRect(this.x - width / 2, this.y - height / 2, width, height);
+        g.setFont(g.getFont().deriveFont(16f));
+        g.drawString(this.text, this.x-(width/2), this.y);
+        g.drawString(this.text2, this.x-(width/2), this.y+20);
+        g.dispose();
     }
 
 

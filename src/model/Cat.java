@@ -96,6 +96,7 @@ public class Cat {
             } else if (noReactionTime != 0) {
                 if ((System.currentTimeMillis() - noReactionTime) >= NO_REACTION) {
                     img = smirky;
+
                 }
             } else {
                 noReactionTime = System.currentTimeMillis();
