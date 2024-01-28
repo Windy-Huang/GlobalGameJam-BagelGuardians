@@ -42,9 +42,10 @@ public class GamePanel extends JPanel implements Runnable {
     // the index of image in array
     public int index = 0;
     public int OPENING_END_INDEX = 20;
-    public int CLOSING_END_INDEX = 20;
+    public int CLOSING_START_INDEX = 26;
+    public int CLOSING_END_INDEX = 33;
     public int TRANSITION_START = 12;
-    public int TRANSITION_END = 22;
+    public int TRANSITION_END = 25;
 
     // EFFECTS: create an object with the intended width and height
     public GamePanel() {
@@ -104,6 +105,7 @@ public class GamePanel extends JPanel implements Runnable {
                     throw new RuntimeException(e);
                 }
                 gameState = CLOSING;
+                index = CLOSING_START_INDEX;
             } else if (cat.transition == true) {
                 try {
                     Thread.sleep((long) 2000);
@@ -112,7 +114,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 cat.restart();
                 textbox.isClicked = false;
-                index = TRANSITION_START;
                 gameState = TRANSITION;
             }
         }
@@ -138,7 +139,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void transitionUpdate() {
         key.active = true;
-        index = OPENING_END_INDEX;
         if (index == TRANSITION_END){
             gameState = OPENING;
             index = TRANSITION_START;
@@ -159,6 +159,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void closeDraw(Graphics g) {
+        g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+    }
+
+    public void transitionDraw(Graphics g){
         g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
     }
 
@@ -185,6 +189,8 @@ public class GamePanel extends JPanel implements Runnable {
             openDraw(g);
         } else if (gameState == CLOSING) {
             closeDraw(g);
+        } else if (gameState == TRANSITION) {
+            transitionDraw(g);
         }
     }
 
