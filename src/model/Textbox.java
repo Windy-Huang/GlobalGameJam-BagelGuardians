@@ -19,7 +19,7 @@ public class Textbox {
     private int r;
     private Random rand;
 
-    private int boxConstant = 100;
+    private int boxConstant = 99;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public double screenWidth = screenSize.getWidth();
