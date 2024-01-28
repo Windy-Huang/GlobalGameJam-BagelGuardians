@@ -14,11 +14,18 @@ public class GamePanel extends JPanel implements Runnable{
     private final int ORIGINAL_PIXEL_SIZE = 64;
     private final int SCALE = 4;
     public final int PIXEL_SIZE = ORIGINAL_PIXEL_SIZE * SCALE;
+    public final int TARGET = 20;
 
     // Screen Settings
     public final int SCREEN_WIDTH = 800;
     public final int SCREEN_HEIGHT = 600;
     private final int FRAME_PER_SEC = 60;
+
+    // create game state
+    // 1 = play
+    // 2 = pause
+    // 3 = opening
+    // 4 = closing
 
     // create a game clock that updates characters
     Textbox textbox = new Textbox();
@@ -68,10 +75,28 @@ public class GamePanel extends JPanel implements Runnable{
 
     // EFFECTS: updates world information in updates 30 times per second
     public void update() {
-        this.textbox.move();
-        this.textbox.handleBoundary();
-        cat.updateCatReaction();
-        this.setCursor(m.customize());
+        if (!(textbox.isClicked)) {
+            this.textbox.move();
+            this.textbox.handleBoundary();
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        } else {
+            cat.updateCatReaction();
+            this.setCursor(m.customize());
+
+            if (cat.hit >= TARGET) {
+                /// change game start
+            }
+
+            if (cat.transition == true) {
+                try {
+                    Thread.sleep((long) 2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                cat.restart();
+                textbox.isClicked = false;
+            }
+        }
     }
 
     public void paintComponent(Graphics g) {

@@ -1,6 +1,7 @@
 package catCharacter;
 
 import ui.GamePanel;
+import ui.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,11 +10,16 @@ import java.io.IOException;
 
 public class Cat {
     public static final int WAIT = 175;
+    public static final int NO_REACTION = 3000;
 
     public GamePanel gp;
     public MouseHandler mh;
-    public BufferedImage left, right, regular, img;
+    public Sound s = new Sound();
+    public BufferedImage left, right, regular, smirky, img;
     public long startReactionTime = 0;
+    public long noReactionTime = 0;
+    public Boolean transition = false;
+    public int hit = 0;
     public int x=300,y=300;
 
     public Cat(GamePanel gp, MouseHandler mh){
@@ -28,6 +34,7 @@ public class Cat {
             left = ImageIO.read(getClass().getResourceAsStream("/left.png"));
             right = ImageIO.read(getClass().getResourceAsStream("/right.png"));
             regular = ImageIO.read(getClass().getResourceAsStream("/regular.png"));
+            smirky = ImageIO.read(getClass().getResourceAsStream("/smirky.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -66,17 +73,27 @@ public class Cat {
         return (lo <= val && val <= hi);
     }
 
-    // EFFECTS: draw the corresponding cat
+    // EFFECTS: update the cat to the corresponding reaction
     public void updateCatReaction() {
         if (startReactionTime == 0){
             if (mh.leftDirection){
                 startReactionTime = System.currentTimeMillis();
+                noReactionTime = 0;
                 img = left;
+                hit++;
                 mh.leftDirection = false;
             } else if (mh.rightDirection) {
                 startReactionTime = System.currentTimeMillis();
+                noReactionTime = 0;
                 img = right;
+                hit++;
                 mh.rightDirection = false;
+            } else if (noReactionTime != 0) {
+                if ((System.currentTimeMillis() - noReactionTime) >= NO_REACTION) {
+                    img = smirky;
+                }
+            } else {
+                noReactionTime = System.currentTimeMillis();
             }
         } else {
             if ((System.currentTimeMillis() - startReactionTime) >= WAIT){
@@ -87,11 +104,23 @@ public class Cat {
             mh.rightDirection = false;
         }
     }
+
     // EFFECT: update the cat reaction
     public void drawCat(Graphics g) {
 //      change to 2D
         Graphics2D g2d = (Graphics2D)g;
         g2d.drawImage(img, x, y, gp.getPixelSize(), gp.getPixelSize(), null);
+        if (img == smirky) {
+            s.playSoundEffect(2);
+            transition = true;
+        }
     }
 
+    public void restart() {
+        startReactionTime = 0;
+        noReactionTime = 0;
+        transition = false;
+        img = regular;
+        hit = 0;
+    }
 }
