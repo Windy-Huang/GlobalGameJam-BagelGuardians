@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Cat {
     public static final int WAIT = 175;
     public static final int NO_REACTION = 3000;
-    public final int TARGET = 5;
+    public final int TARGET = 15;
 
     public GamePanel gp;
     public MouseHandler mh;

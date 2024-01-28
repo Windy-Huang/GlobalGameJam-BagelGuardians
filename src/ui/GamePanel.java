@@ -1,6 +1,7 @@
 package ui;
 
 import model.Cat;
+import model.KeyHandler;
 import model.MouseHandler;
 import model.Textbox;
 
@@ -31,9 +32,15 @@ public class GamePanel extends JPanel implements Runnable {
     // create a game clock that updates characters
     public Textbox textbox = new Textbox();
     MouseHandler m = new MouseHandler(this);
+    KeyHandler key = new KeyHandler(this);
     Cat cat = new Cat(this, m);
     Sound s = new Sound();
+    Image i = new Image();
     Thread gameThread;
+
+    // the index of image in array
+    public int index = 0;
+    public int OPENING_END_INDEX = 2;
 
     // EFFECTS: create an object with the intended width and height
     public GamePanel() {
@@ -43,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         // improve game rendering
         this.setDoubleBuffered(true);
         this.addMouseListener(m);
+        this.addKeyListener(key);
         this.setFocusable(true);
     }
 
@@ -60,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.currentTimeMillis();
         long currentTime;
         s.playBackgroundMusic(1);
-        gameState = PLAY;
+        gameState = OPENING;
 
         while (gameThread != null) {
             currentTime = System.currentTimeMillis();
@@ -104,6 +112,17 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void openUpdate() {
+        key.active = true;
+        if (index == OPENING_END_INDEX){
+            gameState = PLAY;
+            key.active = false;
+        }
+    }
+
+    public void closeUpdate() {
+    }
+
     public void playDraw(Graphics g) {
         if (!(textbox.isClicked)) {
             textbox.drawTextBox(g);
@@ -112,13 +131,22 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void gameClosing() {
+    public void openDraw(Graphics g) {
+        g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+    }
+
+    public void closeDraw(Graphics g) {
+
     }
 
     // EFFECTS: updates world information in updates 30 times per second
     public void update() {
         if (gameState == PLAY) {
             playUpdate();
+        } else if (gameState == OPENING) {
+            openUpdate();
+        } else if (gameState == CLOSING) {
+            closeUpdate();
         }
     }
 
@@ -128,8 +156,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == PLAY) {
             playDraw(g);
+        } else if (gameState == OPENING) {
+            openDraw(g);
+        } else if (gameState == CLOSING) {
+            closeDraw(g);
         }
-
     }
 
     // Getters:
