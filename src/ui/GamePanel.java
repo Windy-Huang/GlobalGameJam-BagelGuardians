@@ -22,37 +22,33 @@ public class GamePanel extends JPanel implements Runnable {
     private final int FRAME_PER_SEC = 60;
 
     // create game state
-    // todo create k handler to move through opening state
-    public int gameState;
-    public final int PLAY = 1;
-    public final int OPENING = 2; // move by pressing entre
-    public final int CLOSING = 3; // turn gameThread = null to exist
-    public final int TRANSITION = 4;
+    private int gameState;
+    private final int PLAY = 1;
+    private final int OPENING = 2; // move by pressing entre
+    private final int CLOSING = 3; // turn gameThread = null to exist
+    private final int TRANSITION = 4;
 
-
-    // create a game clock that updates characters
+    // create necessary components
     public Textbox textbox = new Textbox();
-    MouseHandler m = new MouseHandler(this);
-    KeyHandler key = new KeyHandler(this);
-    Cat cat = new Cat(this, m);
-    Sound s = new Sound();
-    Image i = new Image();
-    public Thread gameThread;
+    public MouseHandler m = new MouseHandler(this);
+    public KeyHandler key = new KeyHandler(this);
+    public Cat cat = new Cat(this, m);
+    private Sound s = new Sound();
+    private Image i = new Image();
+    private Thread gameThread;
 
-    // the index of image in array
-    public int index = 0;
-    public int OPENING_END_INDEX = 20;
-    public int CLOSING_START_INDEX = 26;
-    public int CLOSING_END_INDEX = 33;
-    public int TRANSITION_START = 12;
-    public int TRANSITION_END = 25;
+    // the index constant of image in array
+    private int index = 0;
+    private int OPENING_END_INDEX = 20;
+    private int CLOSING_START_INDEX = 26;
+    private int CLOSING_END_INDEX = 33;
+    private int TRANSITION_START = 12;
+    private int TRANSITION_END = 25;
 
     // EFFECTS: create an object with the intended width and height
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.lightGray);
-        // all drawing will be done in an offscreen painting buffer
-        // improve game rendering
         this.setDoubleBuffered(true);
         this.addMouseListener(m);
         this.addKeyListener(key);
@@ -89,7 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // EFFECTS: update the game during play
-    public void playUpdate() {
+    private void playUpdate() {
         if (!(textbox.isClicked)) {
             this.textbox.move();
             this.textbox.handleBoundary();
@@ -106,6 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 gameState = CLOSING;
                 index = CLOSING_START_INDEX;
+                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             } else if (cat.transition == true) {
                 try {
                     Thread.sleep((long) 2000);
@@ -115,11 +112,12 @@ public class GamePanel extends JPanel implements Runnable {
                 cat.restart();
                 textbox.isClicked = false;
                 gameState = TRANSITION;
+                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         }
     }
 
-    public void openUpdate() {
+    private void openUpdate() {
         key.active = true;
         if (index == OPENING_END_INDEX){
             gameState = PLAY;
@@ -127,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void closeUpdate() {
+    private void closeUpdate() {
         key.active = true;
         if (index == CLOSING_END_INDEX){
             key.active = false;
@@ -137,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void transitionUpdate() {
+    private void transitionUpdate() {
         key.active = true;
         if (index == TRANSITION_END){
             gameState = OPENING;
@@ -146,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void playDraw(Graphics g) {
+    private void playDraw(Graphics g) {
         if (!(textbox.isClicked)) {
             textbox.drawTextBox(g);
         } else {
@@ -154,20 +152,12 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void openDraw(Graphics g) {
-        g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-    }
-
-    public void closeDraw(Graphics g) {
-        g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-    }
-
-    public void transitionDraw(Graphics g){
+    private void draw(Graphics g) {
         g.drawImage(i.imagelist.get(index),0,0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
     }
 
     // EFFECTS: updates world information in updates 30 times per second
-    public void update() {
+    private void update() {
         if (gameState == PLAY) {
             playUpdate();
         } else if (gameState == OPENING) {
@@ -185,19 +175,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == PLAY) {
             playDraw(g);
-        } else if (gameState == OPENING) {
-            openDraw(g);
-        } else if (gameState == CLOSING) {
-            closeDraw(g);
-        } else if (gameState == TRANSITION) {
-            transitionDraw(g);
+        } else {
+            draw(g);
         }
     }
 
-    // Getters:
-
-    public int getPixelSize() {
-        return PIXEL_SIZE;
+    // Setters:
+    public void incrementIndex() {
+        index++;
     }
 
 }

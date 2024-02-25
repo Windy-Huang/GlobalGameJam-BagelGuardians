@@ -10,10 +10,10 @@ public class Sound {
     URL soundURL[] = new URL[5];
 
     public Sound() {
-        soundURL[0] = getClass().getResource("/whip.wav");
-        soundURL[1] = getClass().getResource("/Level2.7.wav");
-        soundURL[2] = getClass().getResource("/beep.wav");
-        soundURL[3] = getClass().getResource("/crying.wav");
+        soundURL[0] = getClass().getResource("/sound/whip.wav");
+        soundURL[1] = getClass().getResource("/sound/Level2.7.wav");
+        soundURL[2] = getClass().getResource("/sound/beep.wav");
+        soundURL[3] = getClass().getResource("/sound/crying.wav");
     }
 
     public void setFile(int i) {

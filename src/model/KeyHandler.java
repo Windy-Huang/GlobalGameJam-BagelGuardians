@@ -25,10 +25,8 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         if (active) {
             int code = e.getKeyCode();
-            System.out.println(code);
             if (code == 10) {
-                gp.index++;
-                System.out.println("incremented");
+                gp.incrementIndex();
             }
         }
     }

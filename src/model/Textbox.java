@@ -47,7 +47,7 @@ public class Textbox {
         this.y = 300;
         this.isClicked = false;
         try {
-            background = ImageIO.read(getClass().getResourceAsStream("/background.png"));
+            background = ImageIO.read(getClass().getResourceAsStream("/image/background.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }

@@ -14,7 +14,7 @@ public class Image {
         String path;
         for (int i=0; i<33; i++){
             try {
-                path = "/img" + Integer.toString(i) + ".png";
+                path = "/image/img" + Integer.toString(i) + ".png";
                 img = ImageIO.read(getClass().getResourceAsStream(path));
             } catch(IOException e) {
                 e.printStackTrace();

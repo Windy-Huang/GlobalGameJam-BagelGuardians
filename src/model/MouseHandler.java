@@ -13,18 +13,16 @@ import java.util.Random;
 
 public class MouseHandler implements MouseListener {
 
-    public boolean leftDirection;
-    public boolean rightDirection;
-    public Sound s;
-    public GamePanel gp;
-    public Cat c;
-    public Textbox t;
+    private boolean leftDirection;
+    private boolean rightDirection;
+    private Sound s;
+    private Cat c;
+    private Textbox t;
 
     public MouseHandler(GamePanel gp) {
         this.leftDirection = false;
         this.rightDirection = false;
         s = new Sound();
-        this.gp = gp;
         c = new Cat(gp, this);
         t = gp.textbox;
     }
@@ -65,34 +63,54 @@ public class MouseHandler implements MouseListener {
                     t.text2 = "bagel ninja :D";
                     break;
             }
-        }
 
-        if (((e.getX() < (this.t.x + (this.t.width/2))) && (e.getX() > (this.t.x-(this.t.width/2))))
-                && ((e.getY() < (this.t.y + (this.t.height/2)) && (e.getY() > (this.t.y-(this.t.width/2)))))) {
-            t.isClicked = true;
-        } else if ((c.checkValid(e.getX(), e.getY()) == 1) && (t.isClicked)) {
-            //System.out.println("clicked left");
-            s.playSoundEffect(0);
-            leftDirection = true;
-        } else if ((c.checkValid(e.getX(), e.getY()) == 2) && (t.isClicked)) {
-            //System.out.println("clicked right");
-            s.playSoundEffect(0);
-            rightDirection = true;
-        }
+            if (((e.getX() < (this.t.x + (this.t.width / 2))) && (e.getX() > (this.t.x - (this.t.width / 2))))
+                    && ((e.getY() < (this.t.y + (this.t.height / 2)) && (e.getY() > (this.t.y - (this.t.width / 2)))))) {
+                t.isClicked = true;
+            }
 
+        } else {
+
+             if ((c.checkValid(e.getX(), e.getY()) == 1) && (t.isClicked)) {
+                s.playSoundEffect(0);
+                leftDirection = true;
+            } else if ((c.checkValid(e.getX(), e.getY()) == 2) && (t.isClicked)) {
+                s.playSoundEffect(0);
+                rightDirection = true;
+            }
+
+        }
     }
 
-    // failed
+
     public Cursor customize() {
         Toolkit tk = Toolkit.getDefaultToolkit();
         BufferedImage img = null;
         try {
-            img = ImageIO.read(getClass().getResourceAsStream("/hand.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/character/hand.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
         Point point = new Point(0, 0);
         return tk.createCustomCursor(img,point,"custom");
+    }
+
+    // GETTER:
+    public boolean getLeftDirection() {
+        return leftDirection;
+    }
+
+    public boolean getRightDirection() {
+        return rightDirection;
+    }
+
+    // SETTER:
+    public void setLeftDirection(Boolean b) {
+        leftDirection = b;
+    }
+
+    public void setRightDirection(Boolean b) {
+        rightDirection = b;
     }
 
     // not of interest
