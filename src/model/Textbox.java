@@ -1,6 +1,8 @@
 package model;
 
 
+import ui.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,8 +11,10 @@ import java.util.Random;
 
 public class Textbox {
 
+    private GamePanel gp;
+
     public int width = 200;
-    public int height= 75;
+    public int height= 140;
     public int x;
     public int y;
     public boolean isClicked;
@@ -23,6 +27,8 @@ public class Textbox {
     public Random rand;
 
     private int boxConstant = 175;
+
+    private BufferedImage cat;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public double screenWidth = screenSize.getWidth();
@@ -42,19 +48,19 @@ public class Textbox {
 
 
 
-    public Textbox() {
+    public Textbox(GamePanel gp) {
         this.x = 400;
         this.y = 300;
         this.isClicked = false;
+        this.gp = gp;
         try {
             background = ImageIO.read(getClass().getResourceAsStream("/image/background.png"));
+            cat = ImageIO.read(getClass().getResourceAsStream("/character/regular.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void moveText() {
-    }
 
     public void move() {
         //to correct mouse coordinate
@@ -154,10 +160,11 @@ public class Textbox {
 
     public void drawTextBox (Graphics g) {
         g.drawImage(background, 0,0, 800, 600, null);
-        g.drawRect(this.x - width / 2, this.y - height / 2, width, height);
+        g.drawImage(cat, x - (gp.PIXEL_SIZE / 2), y - (gp.PIXEL_SIZE / 2), gp.PIXEL_SIZE, gp.PIXEL_SIZE, null);
+//        g.drawRect(this.x - width / 2, this.y - height / 2, width, height);
         g.setFont(g.getFont().deriveFont(16f));
-        g.drawString(this.text, this.x-(width/2), this.y);
-        g.drawString(this.text2, this.x-(width/2), this.y+20);
+        g.drawString(this.text, this.x-width, this.y-height);
+        g.drawString(this.text2, this.x-width, this.y+20-height);
         g.dispose();
     }
 

@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final int TRANSITION = 4;
 
     // create necessary components
-    public Textbox textbox = new Textbox();
+    public Textbox textbox = new Textbox(this);
     public MouseHandler m = new MouseHandler(this);
     public KeyHandler key = new KeyHandler(this);
     public Cat cat = new Cat(this, m);
